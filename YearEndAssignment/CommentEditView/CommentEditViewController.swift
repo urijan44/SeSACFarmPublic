@@ -8,92 +8,73 @@
 import UIKit
 import RxSwift
 import RxRelay
-class CommentEditViewModel {
-  var text = BehaviorRelay<String>(value: "")
-  var commentId = BehaviorRelay<Int>(value: -1)
-  var postId = BehaviorRelay<Int>(value: -1)
-  var bag = DisposeBag()
-  
-  func requestCommentEdit() -> Single<Void> {
-    return Single.create { single in
-      let input = [
-        "comment": self.text.value,
-        "post": "\(self.postId.value)"
-      ]
-      
-      APIManager.shared.editComment(commentId: self.commentId.value, input)
-        .subscribe(onSuccess: { _ in
-          single(.success(()))
-        }, onFailure: {
-          single(.failure($0))
-        })
-        .disposed(by: self.bag)
-      
-      return Disposables.create()
-    }
-  }
-  
-  
-}
+import RxCocoa
 
 
-class CommentEditViewController: UIViewController {
+
+class CommentEditViewController: NiblessViewController {
   
   let mainView = CommentEditView()
-  let viewModel = CommentEditViewModel()
+  let viewModel: CommentEditViewModel
   let bag = DisposeBag()
+  
+  init(viewModel: CommentEditViewModel) {
+    self.viewModel = viewModel
+    mainView.textView.text = viewModel.text
+    super.init()
+  }
+    
   override func loadView() {
     view = mainView
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .white
-    actionConnect()
-
-    
-    bindConfigure()
+    mainView.textView.becomeFirstResponder()
+    bind()
   }
   
-  private func actionConnect() {
-    mainView.cancel.rx.tap
-      .asDriver()
+  private func bind() {
+    let input = CommentEditViewModel.Input(
+      text: mainView.textView.rx.text.orEmpty,
+      cancelTap: mainView.cancel.rx.tap,
+      completeTap: mainView.complete.rx.tap)
+    
+    let output = viewModel.transform(input: input)
+    
+    output.editCancelTransition
       .drive(onNext: {
         self.navigationController?.popViewController(animated: true)
       })
       .disposed(by: bag)
     
-    mainView.complete.rx.tap
-      .asDriver()
+    output.editComplete
       .drive(onNext: {
-        self.editComplete()
+        self.editComplete(input: input)
       })
+      .disposed(by: bag)
+   
+    output.editValidate
+      .drive(mainView.complete.rx.isEnabled)
       .disposed(by: bag)
   }
   
-  private func bindConfigure() {
-    viewModel.text.bind(to: mainView.textView.rx.text)
-      .disposed(by: bag)
-    
-    mainView.textView.rx.text
-      .orEmpty
-      .bind(onNext: {
-        self.viewModel.text.accept($0)
-      })
-      .disposed(by: bag)
-  }
-  
-  private func editComplete() {
-    viewModel.requestCommentEdit()
-      .subscribe(onSuccess: {
-        self.freeSizeToast(text: "댓글을 수정했습니다.", size: CGSize(width: 120, height: 33))
+  private func editComplete(input: CommentEditViewModel.Input) {
+    mainView.complete.isEnabled = false
+    viewModel.requestCommentEdit(input: input)
+      .subscribe(onSuccess: { [weak self] in
+        guard let self = self else { return }
+        self.toast(text: "댓글을 수정했습니다.", size: CGSize(width: 120, height: 33), position: .bottom)
           .subscribe(onCompleted: {
             self.navigationController?.popViewController(animated: true)
           })
           .disposed(by: self.bag)
-      }, onFailure: {
+      }, onFailure: { [weak self] in
+        guard let self = self else { return }
         self.alert(title: $0.localizedDescription)
-          .subscribe()
+          .subscribe(onDisposed: {
+            self.mainView.complete.isEnabled = true
+          })
           .disposed(by: self.bag)
       }).disposed(by: bag)
   }

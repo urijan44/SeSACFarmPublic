@@ -27,6 +27,11 @@ class NewPostViewModel {
     }
   }
   
+  convenience init(postId: Int) {
+    self.init()
+    self.postId = postId
+  }
+  
   var viewDismiss = BehaviorRelay<Bool>(value: false)
   
   func saveRequest() -> Single<Bool> {

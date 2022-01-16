@@ -41,6 +41,13 @@ struct DetailComment: Codable, Hashable {
   let id: Int
   let comment: String
   let user: BoardUser
+  let createdAt, updatedAt: String
+  
+  enum CodingKeys: String, CodingKey {
+      case id, comment, user
+      case createdAt = "created_at"
+      case updatedAt = "updated_at"
+  }
 }
 
 // MARK: - User

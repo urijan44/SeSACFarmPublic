@@ -95,7 +95,7 @@ class StartMainView: UIView {
     
     alreadyAccouns.snp.makeConstraints { make in
       make.centerX.equalToSuperview()
-      make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(8)
+      make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-16)
     }
   }
 }

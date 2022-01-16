@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A14719027917F0000605248 /* CommentEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A14718F27917F0000605248 /* CommentEditViewModel.swift */; };
 		8A20AB442782C87F00CD9305 /* NewCommentInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20AB432782C87F00CD9305 /* NewCommentInputField.swift */; };
 		8A20AB462782CA2900CD9305 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20AB452782CA2900CD9305 /* UIColor+Extension.swift */; };
 		8A20AB4927830E3F00CD9305 /* TopNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A20AB4827830E3F00CD9305 /* TopNavigationView.swift */; };
@@ -44,9 +45,14 @@
 		8A4CBBF72785F10300DCDB1C /* BoardDetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CBBF62785F10300DCDB1C /* BoardDetailMainView.swift */; };
 		8A4CBBFB27860AAE00DCDB1C /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CBBFA27860AAE00DCDB1C /* NewPostViewModel.swift */; };
 		8A4CBBFD2786143200DCDB1C /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CBBFC2786143200DCDB1C /* ToastView.swift */; };
+		8A60D86F2791C39B006B122B /* Action in Frameworks */ = {isa = PBXBuildFile; productRef = 8A60D86E2791C39B006B122B /* Action */; };
+		8A60D8722791C476006B122B /* SceneCoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A60D8712791C476006B122B /* SceneCoordinatorType.swift */; };
+		8A60D8742791C4D7006B122B /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A60D8732791C4D7006B122B /* Scene.swift */; };
+		8A60D8762791C505006B122B /* SceneTransitionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A60D8752791C505006B122B /* SceneTransitionType.swift */; };
 		8A83F30327869C9800FD6F6B /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A83F30227869C9800FD6F6B /* PreferenceViewController.swift */; };
 		8A83F30527869CA400FD6F6B /* PreferenceMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A83F30427869CA400FD6F6B /* PreferenceMainView.swift */; };
 		8A83F3072786BAD800FD6F6B /* PreferenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A83F3062786BAD800FD6F6B /* PreferenceViewModel.swift */; };
+		8A854545278DE4B900E38600 /* NiblessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A854544278DE4B900E38600 /* NiblessViewController.swift */; };
 		8AA75329278061FE0063ACEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA75328278061FE0063ACEE /* AppDelegate.swift */; };
 		8AA7532B278061FE0063ACEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA7532A278061FE0063ACEE /* SceneDelegate.swift */; };
 		8AA7532D278061FE0063ACEE /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA7532C278061FE0063ACEE /* StartViewController.swift */; };
@@ -58,10 +64,13 @@
 		8AA7AEDA27809D3900474F8C /* SignUpMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA7AED927809D3900474F8C /* SignUpMainView.swift */; };
 		8AAD4C602786F8770078F481 /* CommentEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAD4C5F2786F8770078F481 /* CommentEditView.swift */; };
 		8AAD4C622786F9330078F481 /* CommentEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAD4C612786F9330078F481 /* CommentEditViewController.swift */; };
+		8ADE0814278A72620009C7DB /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADE0813278A72620009C7DB /* APIError.swift */; };
+		8ADE0816278A87310009C7DB /* EditFinishiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADE0815278A87310009C7DB /* EditFinishiButton.swift */; };
 		8AFEB4B5278276B9000788BE /* BoardDetailCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AFEB4B4278276B9000788BE /* BoardDetailCommentCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A14718F27917F0000605248 /* CommentEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentEditViewModel.swift; sourceTree = "<group>"; };
 		8A20AB432782C87F00CD9305 /* NewCommentInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentInputField.swift; sourceTree = "<group>"; };
 		8A20AB452782CA2900CD9305 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		8A20AB4827830E3F00CD9305 /* TopNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopNavigationView.swift; sourceTree = "<group>"; };
@@ -97,9 +106,13 @@
 		8A4CBBF62785F10300DCDB1C /* BoardDetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailMainView.swift; sourceTree = "<group>"; };
 		8A4CBBFA27860AAE00DCDB1C /* NewPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
 		8A4CBBFC2786143200DCDB1C /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		8A60D8712791C476006B122B /* SceneCoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCoordinatorType.swift; sourceTree = "<group>"; };
+		8A60D8732791C4D7006B122B /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
+		8A60D8752791C505006B122B /* SceneTransitionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneTransitionType.swift; sourceTree = "<group>"; };
 		8A83F30227869C9800FD6F6B /* PreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
 		8A83F30427869CA400FD6F6B /* PreferenceMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceMainView.swift; sourceTree = "<group>"; };
 		8A83F3062786BAD800FD6F6B /* PreferenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceViewModel.swift; sourceTree = "<group>"; };
+		8A854544278DE4B900E38600 /* NiblessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NiblessViewController.swift; sourceTree = "<group>"; };
 		8AA75325278061FE0063ACEE /* YearEndAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YearEndAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AA75328278061FE0063ACEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AA7532A278061FE0063ACEE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +125,8 @@
 		8AA7AED927809D3900474F8C /* SignUpMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpMainView.swift; sourceTree = "<group>"; };
 		8AAD4C5F2786F8770078F481 /* CommentEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentEditView.swift; sourceTree = "<group>"; };
 		8AAD4C612786F9330078F481 /* CommentEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentEditViewController.swift; sourceTree = "<group>"; };
+		8ADE0813278A72620009C7DB /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		8ADE0815278A87310009C7DB /* EditFinishiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFinishiButton.swift; sourceTree = "<group>"; };
 		8AFEB4B4278276B9000788BE /* BoardDetailCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCommentCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,6 +135,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A60D86F2791C39B006B122B /* Action in Frameworks */,
 				8A20AB5E278370F700CD9305 /* RxCocoa in Frameworks */,
 				8AA75341278063EC0063ACEE /* SnapKit in Frameworks */,
 				8A20AB60278370F700CD9305 /* RxSwift in Frameworks */,
@@ -203,6 +219,7 @@
 			children = (
 				8A38335F2782020300EC0434 /* BoardModel.swift */,
 				8A20AB532783619D00CD9305 /* Account.swift */,
+				8ADE0813278A72620009C7DB /* APIError.swift */,
 				8A20AB4F27833B5B00CD9305 /* APIManager.swift */,
 				8A4CBBE32785979A00DCDB1C /* CurrentAccount.swift */,
 			);
@@ -218,6 +235,7 @@
 				8A4CBBE527859DA700DCDB1C /* ViewController+Extension.swift */,
 				8A4CBBF02785D35F00DCDB1C /* String+Extension.swift */,
 				8A4C5AEF2788531300132960 /* Config.xcconfig */,
+				8A854544278DE4B900E38600 /* NiblessViewController.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -266,6 +284,7 @@
 				8AFEB4B4278276B9000788BE /* BoardDetailCommentCell.swift */,
 				8A38336B27821F7800EC0434 /* WriterView.swift */,
 				8A20AB432782C87F00CD9305 /* NewCommentInputField.swift */,
+				8ADE0815278A87310009C7DB /* EditFinishiButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -293,6 +312,16 @@
 				8A4CBBFA27860AAE00DCDB1C /* NewPostViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		8A60D8702791C466006B122B /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				8A60D8712791C476006B122B /* SceneCoordinatorType.swift */,
+				8A60D8732791C4D7006B122B /* Scene.swift */,
+				8A60D8752791C505006B122B /* SceneTransitionType.swift */,
+			);
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 		8A83F30127869C8700FD6F6B /* PreferenceView */ = {
@@ -326,6 +355,7 @@
 			children = (
 				8AA75328278061FE0063ACEE /* AppDelegate.swift */,
 				8AA7532A278061FE0063ACEE /* SceneDelegate.swift */,
+				8A60D8702791C466006B122B /* Scenes */,
 				8A3833632782050200EC0434 /* Support */,
 				8A38335E278201F500EC0434 /* Model */,
 				8AA7533C278062D10063ACEE /* StartView */,
@@ -365,6 +395,7 @@
 		8AAD4C5E2786F8680078F481 /* CommentEditView */ = {
 			isa = PBXGroup;
 			children = (
+				8A14718F27917F0000605248 /* CommentEditViewModel.swift */,
 				8AAD4C612786F9330078F481 /* CommentEditViewController.swift */,
 				8AAD4C5F2786F8770078F481 /* CommentEditView.swift */,
 			);
@@ -392,6 +423,7 @@
 				8A38336E2782201500EC0434 /* Then */,
 				8A20AB5D278370F700CD9305 /* RxCocoa */,
 				8A20AB5F278370F700CD9305 /* RxSwift */,
+				8A60D86E2791C39B006B122B /* Action */,
 			);
 			productName = YearEndAssignment;
 			productReference = 8AA75325278061FE0063ACEE /* YearEndAssignment.app */;
@@ -425,6 +457,7 @@
 				8AA7533F278063EC0063ACEE /* XCRemoteSwiftPackageReference "SnapKit" */,
 				8A38336D2782201500EC0434 /* XCRemoteSwiftPackageReference "Then" */,
 				8A20AB5C278370F700CD9305 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				8A60D86D2791C39B006B122B /* XCRemoteSwiftPackageReference "Action" */,
 			);
 			productRefGroup = 8AA75326278061FE0063ACEE /* Products */;
 			projectDirPath = "";
@@ -456,18 +489,22 @@
 				8AA7533E278062DF0063ACEE /* StartMainView.swift in Sources */,
 				8A83F30527869CA400FD6F6B /* PreferenceMainView.swift in Sources */,
 				8A4CBBF72785F10300DCDB1C /* BoardDetailMainView.swift in Sources */,
+				8A60D8742791C4D7006B122B /* Scene.swift in Sources */,
 				8AA7AEDA27809D3900474F8C /* SignUpMainView.swift in Sources */,
 				8A20AB5027833B5B00CD9305 /* APIManager.swift in Sources */,
 				8A20AB4E2783152F00CD9305 /* NewBoardMainView.swift in Sources */,
 				8A3833602782020300EC0434 /* BoardModel.swift in Sources */,
 				8A20AB4C2783143600CD9305 /* NewBoardViewController.swift in Sources */,
 				8A4CBBF52785E2D800DCDB1C /* DetailViewModel.swift in Sources */,
+				8A14719027917F0000605248 /* CommentEditViewModel.swift in Sources */,
 				8A20AB5227835D3400CD9305 /* Constant.swift in Sources */,
 				8A4CBBE627859DA700DCDB1C /* ViewController+Extension.swift in Sources */,
 				8A383371278223E300EC0434 /* BoardDetailMainContentCell.swift in Sources */,
 				8A20AB542783619D00CD9305 /* Account.swift in Sources */,
+				8ADE0816278A87310009C7DB /* EditFinishiButton.swift in Sources */,
 				8A4CBBFB27860AAE00DCDB1C /* NewPostViewModel.swift in Sources */,
 				8A20AB442782C87F00CD9305 /* NewCommentInputField.swift in Sources */,
+				8A60D8762791C505006B122B /* SceneTransitionType.swift in Sources */,
 				8A3833652782167E00EC0434 /* BoardTitleView.swift in Sources */,
 				8A38335A2781E98B00EC0434 /* NicknameFieldView.swift in Sources */,
 				8AAD4C622786F9330078F481 /* CommentEditViewController.swift in Sources */,
@@ -478,6 +515,7 @@
 				8A20AB462782CA2900CD9305 /* UIColor+Extension.swift in Sources */,
 				8A4CBBEC2785D02A00DCDB1C /* BoardMainView.swift in Sources */,
 				8A38334D2781DEFA00EC0434 /* SignUpViewController.swift in Sources */,
+				8A854545278DE4B900E38600 /* NiblessViewController.swift in Sources */,
 				8A20AB572783650400CD9305 /* LoginMainView.swift in Sources */,
 				8A4CBBFD2786143200DCDB1C /* ToastView.swift in Sources */,
 				8A383367278217B100EC0434 /* NewPostButton.swift in Sources */,
@@ -491,7 +529,9 @@
 				8A83F30327869C9800FD6F6B /* PreferenceViewController.swift in Sources */,
 				8A38336A27821EA500EC0434 /* BoardDetailViewController.swift in Sources */,
 				8A38336C27821F7800EC0434 /* WriterView.swift in Sources */,
+				8ADE0814278A72620009C7DB /* APIError.swift in Sources */,
 				8AA75329278061FE0063ACEE /* AppDelegate.swift in Sources */,
+				8A60D8722791C476006B122B /* SceneCoordinatorType.swift in Sources */,
 				8AFEB4B5278276B9000788BE /* BoardDetailCommentCell.swift in Sources */,
 				8A3833582781E61F00EC0434 /* WriteCommentView.swift in Sources */,
 				8A4CBBF12785D35F00DCDB1C /* String+Extension.swift in Sources */,
@@ -729,6 +769,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		8A60D86D2791C39B006B122B /* XCRemoteSwiftPackageReference "Action" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/Action.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		8AA7533F278063EC0063ACEE /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -754,6 +802,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8A38336D2782201500EC0434 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		8A60D86E2791C39B006B122B /* Action */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8A60D86D2791C39B006B122B /* XCRemoteSwiftPackageReference "Action" */;
+			productName = Action;
 		};
 		8AA75340278063EC0063ACEE /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;

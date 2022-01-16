@@ -28,6 +28,7 @@ class CommentEditView: UIView {
   let navBarItem = UINavigationItem(title: "댓글 수정")
   override init(frame: CGRect) {
     super.init(frame: frame)
+    backgroundColor = .white
     addSubview(navigationBar)
     addSubview(textView)
     

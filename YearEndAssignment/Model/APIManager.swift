@@ -8,27 +8,9 @@
 import Foundation
 import RxSwift
 
-enum APIError: Error, LocalizedError {
-  case invalidResponse(String)
-  case noData
-  case failure
-  case invalidData
-  
-  public var errorDescription: String? {
-    switch self {
-      case .invalidResponse(let string):
-        return string
-      case .noData:
-        return "noData"
-      case .failure:
-        return "failure"
-      case .invalidData:
-        return "invalid data"
-    }
-  }
-}
 
 enum RequestType {
+  case signUp
   case write
   case none
 }
@@ -57,62 +39,63 @@ class APIManager {
   func signUp(input: Dictionary<String, String>) -> Observable<Data> {
     return Observable.create { observer in
       guard let url = URL(string: self.baseURL)?.appendingPathComponent("auth/local/register"),
-            let jsonData = try? JSONEncoder().encode(input) else {
+            let data = try? JSONEncoder().encode(input) else {
               observer.onError(APIError.failure)
               return Disposables.create()
             }
-      var request = URLRequest(url: url)
-      request.httpMethod = "POST"
-      request.setValue(Header.json.rawValue, forHTTPHeaderField: Field.contentType.rawValue)
-      let task = self.session.uploadTask(with: request, from: jsonData) { data, response, error in
-        guard error == nil else {
-          observer.onError(APIError.failure)
+      
+      self.signUpRequest(url: url, data: data) { data, error in
+        if let error = error {
+          observer.onError(error)
           return
         }
         
-        guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
-          observer.onError(APIError.invalidResponse("invalidResponse"))
+        if let data = data {
+          observer.onNext(data)
+          observer.onCompleted()
           return
         }
-        
-        guard let data = data else {
-          observer.onError(APIError.noData)
-          return
-        }
-        observer.onNext(data)
-        observer.onCompleted()
       }
-      task.resume()
-      return Disposables.create() {
-        task.cancel()
-      }
+      
+      return Disposables.create()
     }
   }
   
-  func signUp(_ account: Account, _ input: Dictionary<String, String>, completion: @escaping (Account?, APIError?) -> Void) {
-    
-    guard
-      let url = URL(string: baseURL)?.appendingPathComponent("auth/local/register"),
-      let jsonData = try? JSONEncoder().encode(input)
-    else { return }
-    
+  func signUpRequest(url: URL, data: Data, completion: @escaping (Data?, Error?) -> Void) {
     var request = URLRequest(url: url)
-    request.httpMethod = "post"
+    request.httpMethod = HTTPMethod.post.rawValue
     request.setValue(Header.json.rawValue, forHTTPHeaderField: Field.contentType.rawValue)
     
-    uploadRequest(account, request: request, jsonData: jsonData) { account, error in
-      DispatchQueue.main.async {
-        if let _ = error {
-          completion(nil, error)
-          return
-        }
-        
-        if let account = account {
-          completion(account, nil)
-          return
-        }
+    let task = session.uploadTask(with: request, from: data) { data, response, error in
+      guard error == nil else {
+        completion(nil, APIError.failure)
+        return
       }
+      
+      guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
+        
+        guard
+          let data = data,
+          let decodedError = try? JSONDecoder().decode(APIError.SignUpError.self, from: data),
+          let message = decodedError.message.first?.messages.first
+        else {
+          completion(nil, APIError.invalidResponse("알수없는 오류"))
+            return
+          }
+        
+        completion(nil, APIError.invalidResponse(message.message))
+        return
+      }
+      
+      guard let data = data else {
+        completion(nil, APIError.invalidData)
+        return
+      }
+      
+      completion(data, nil)
+
     }
+    task.resume()
   }
   
   func signIn(_ input: Dictionary<String, String>, completion: @escaping (Data?, Error?) -> Void) {
@@ -121,7 +104,7 @@ class APIManager {
       let jsonData = try? JSONEncoder().encode(input)
     else { return }
     
-    uploadRequest(url: url, data: jsonData) { data, error in
+    uploadRequest(url: url, data: jsonData, signUp: true) { data, error in
       if let error = error {
         completion(nil, error)
         return
@@ -257,36 +240,7 @@ class APIManager {
     }
   }
   
-  private func uploadRequest<T: Codable>(_ type: T, request: URLRequest, jsonData: Data, completion: @escaping (T?, APIError?) -> Void) {
-    let session = URLSession(configuration: .default)
-    let task = session.uploadTask(with: request, from: jsonData) { data, response, error in
-      
-      guard error == nil else {
-        completion(nil, .failure)
-        return
-      }
-      
-      guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
-        completion(nil,.invalidResponse("invalidResponse"))
-        return
-      }
-      
-      guard let data = data else {
-        completion(nil, .noData)
-        return
-      }
-      
-      guard let decoded = try? JSONDecoder().decode(T.self, from: data) else {
-        completion(nil, .invalidData)
-        return
-      }
-      completion(decoded, nil)
-      
-    }
-    task.resume()
-  }
-  
-  private func uploadRequest(url: URL, data: Data, requestType: RequestType = .none, method: HTTPMethod = .post, completion: @escaping (Data?, Error?) -> Void) {
+  private func uploadRequest(url: URL, data: Data, requestType: RequestType = .none, method: HTTPMethod = .post, signUp: Bool = false, completion: @escaping (Data?, Error?) -> Void) {
     var request = URLRequest(url: url)
     request.httpMethod = method.rawValue
     request.setValue(Header.json.rawValue, forHTTPHeaderField: Field.contentType.rawValue)
@@ -302,17 +256,23 @@ class APIManager {
       }
       
       guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
-        
-        guard let data = data,
-              let json = try? JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as? [String: Any],
-              let message = json["message"] as? String
-        else {
-          completion(nil, APIError.invalidResponse("알수없는 오류"))
+                
+        if signUp {
+          let errorMessage = self.responseHandling(data)
+          completion(nil, errorMessage)
+          return
+        } else {
+          guard let data = data,
+                let json = try? JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as? [String: Any],
+                let message = json["message"] as? String
+          else {
+            completion(nil, APIError.invalidResponse("알수없는 오류"))
+            return
+          }
+
+          completion(nil, APIError.invalidResponse(message))
           return
         }
-
-        completion(nil, APIError.invalidResponse(message))
-        return
       }
       
       guard let data = data else {
@@ -320,15 +280,26 @@ class APIManager {
         return
       }
       completion(data, nil)
+      
     }
     task.resume()
+  }
+  
+  private func responseHandling(_ data: Data?) -> Error {
+    guard
+      let data = data,
+      let decodedError = try? JSONDecoder().decode(APIError.SignUpError.self, from: data),
+      let message = decodedError.message.first?.messages.first else {
+        return APIError.invalidResponse("알수없는 오류")
+      }
+    return APIError.invalidResponse(message.message)
   }
   
   func getPosts(sort: SortStyle = .descending, page: Int = 10, completion: @escaping (Data?, Error?) -> Void) {
     var components = URLComponents(string: baseURL + "/posts")
     
     let sortQuery = URLQueryItem(name: "_sort", value: sort == .descending ? "created_at:desc" : "created_at:asc")
-    let startPage = URLQueryItem(name: "_start", value: "1")
+    let startPage = URLQueryItem(name: "_start", value: "0")
     let limitPage = URLQueryItem(name: "_limit", value: page.description)
     components?.queryItems = [sortQuery, startPage, limitPage]
     

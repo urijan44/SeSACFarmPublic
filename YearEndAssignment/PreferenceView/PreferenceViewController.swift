@@ -49,7 +49,7 @@ class PreferenceViewController: UIViewController {
       .subscribe(onNext: {
         self.viewModel.requestChangePassword()
           .subscribe(onSuccess: { _ in
-            self.freeSizeToast(text: "비밀번호를 성공적으로 변경했습니다🔒", size: CGSize(width: 120, height: 55))
+            self.toast(text: "비밀번호를 성공적으로 변경했습니다🔒", size: CGSize(width: 120, height: 55))
               .subscribe(onCompleted: {
                 self.viewModel.viewDismiss.accept(true)
               }).disposed(by: self.bag)

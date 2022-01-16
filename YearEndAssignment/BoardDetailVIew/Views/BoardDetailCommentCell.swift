@@ -53,6 +53,12 @@ class BoardDetailCommentCell: UITableViewCell {
     $0.text = "답글쓰기"
   }
   
+  let dateLabel = UILabel().then {
+    $0.font = .systemFont(ofSize: 10)
+    $0.textColor = .secondaryLabel
+    $0.text = "12/12"
+  }
+  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     selectionStyle = .none
@@ -66,7 +72,7 @@ class BoardDetailCommentCell: UITableViewCell {
   }
   
   private func createView() {
-    [nicknameLabel, commentLabel, moreButton, likeLabel, replyLabel, profileImageView].forEach {
+    [nicknameLabel, commentLabel, moreButton, likeLabel, replyLabel, profileImageView, dateLabel].forEach {
       addSubview($0)
     }
     
@@ -93,6 +99,11 @@ class BoardDetailCommentCell: UITableViewCell {
       make.leading.equalTo(profileImageView.snp.trailing).offset(6)
       make.top.equalTo(profileImageView.snp.top)
       make.trailing.equalTo(moreButton.snp.leading).inset(4)
+    }
+    
+    dateLabel.snp.makeConstraints { make in
+      make.leading.trailing.equalTo(nicknameLabel)
+      make.bottom.equalTo(profileImageView)
     }
     
     commentLabel.snp.makeConstraints { make in
@@ -122,6 +133,7 @@ class BoardDetailCommentCell: UITableViewCell {
     commentLabel.text = comment.comment
     postId = comment.id
     ownerId = comment.user.id
+    dateLabel.text = comment.updatedAt.dateConvert.mmDD
   }
   
   override func layoutSubviews() {

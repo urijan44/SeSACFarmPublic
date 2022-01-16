@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "Action",
+        "repositoryURL": "https://github.com/RxSwiftCommunity/Action.git",
+        "state": {
+          "branch": null,
+          "revision": "55f5da064fd66cb09acde22cbbb744fe7f6355aa",
+          "version": "5.0.0"
+        }
+      },
+      {
         "package": "RxSwift",
         "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
         "state": {

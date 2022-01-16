@@ -16,6 +16,7 @@ class DetailViewModel {
   var selectedCommentId = -1
   var selectedCommentOwnerId = -1
   var selectedCommentText = ""
+  var coordinator: BoardDetailViewController
   var boardOwnership: Bool {
     if let id = post?.user.id, id == CurrentAccount.shared.id {
       return true
@@ -35,6 +36,10 @@ class DetailViewModel {
   var viewDismiss = BehaviorRelay<Bool>(value: false)
   
   var bag = DisposeBag()
+
+  init(coordinator: BoardDetailViewController) {
+    self.coordinator = coordinator
+  }
   
   func fetchDetailComments(postNumber: Int, completion: @escaping (Error?) -> Void) {
     APIManager.shared.getComments(postNumber: postNumber) { data, error in
@@ -101,6 +106,23 @@ class DetailViewModel {
       }
       self.newComment.accept("")
       return Disposables.create()
+    }
+  }
+  
+  func makeCommentEditViewController() -> Observable<CommentEditViewController> {
+    
+    let viewModel = CommentEditViewModel(
+      text: selectedCommentText,
+      commentId: selectedCommentId,
+      postId: post!.id)
+    let controller = CommentEditViewController(
+      viewModel: viewModel)
+    
+    return Observable<CommentEditViewController>.create { observer in
+      observer.onCompleted()
+      return Disposables.create {
+        self.coordinator.navigationController?.pushViewController(controller, animated: true)
+      }
     }
   }
   

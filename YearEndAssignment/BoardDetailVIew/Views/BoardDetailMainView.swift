@@ -88,21 +88,32 @@ class BoardDetailMainView: UIView {
     tableView.register(BoardDetailMainCotentCell.self, forCellReuseIdentifier: BoardDetailMainCotentCell.reuseIdentifier)
     tableView.register(BoardDetailCommentCell.self, forCellReuseIdentifier: BoardDetailCommentCell.reuseIdentifier)
     tableView.separatorStyle = .none
+    tableView.keyboardDismissMode = .onDrag
     configureDataSource()
     configureSnapshot(board: nil, comments: nil)
   }
   
   private func notificationSetup() {
     
-    notificationCenter.addObserver(forName: UIResponder.keyboardWillChangeFrameNotification,
-                                   object: nil, queue: .main) { (notification) in
-                                    self.handleKeyboard(notification: notification) }
-    notificationCenter.addObserver(forName: UIResponder.keyboardWillHideNotification,
-                                   object: nil, queue: .main) { (notification) in
-                                    self.handleKeyboard(notification: notification) }
+//    notificationCenter.addObserver(forName: UIResponder.keyboardWillChangeFrameNotification,
+//                                   object: nil, queue: .main) { (notification) in
+//                                    self.handleKeyboard(notification: notification) }
+//    notificationCenter.addObserver(forName: UIResponder.keyboardWillHideNotification,
+//                                   object: nil, queue: .main) { (notification) in
+//                                    self.handleKeyboard(notification: notification) }
+    notificationCenter.addObserver(self, selector: #selector(handleKeyboard(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    notificationCenter.addObserver(self, selector: #selector(handleKeyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    
   }
   
-  private func handleKeyboard(notification: Notification) {
+  func notificationRemove() {
+    notificationCenter.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+  }
+
+  
+  @objc private func handleKeyboard(notification: Notification) {
+    print(#function)
     // 1
     guard notification.name == UIResponder.keyboardWillChangeFrameNotification else {
       bottomConstraint?.update(offset: 0)

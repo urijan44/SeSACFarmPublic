@@ -86,25 +86,27 @@ class BoardViewController: UIViewController {
     mainView.tableView
       .rx
       .itemSelected
-      .subscribe(onNext: {
-        self.mainView.tableView.deselectRow(at: $0, animated: true)
+      .subscribe(onNext: { [unowned self] in
+        mainView.tableView.deselectRow(at: $0, animated: true)
         let boardDetailVC = BoardDetailViewController()
-        let selectedPost = self.mainView.dataSource.itemIdentifier(for: $0)
+        let viewModel = DetailViewModel(coordinator: boardDetailVC)
+        boardDetailVC.viewModel = viewModel
+        let selectedPost = mainView.dataSource.itemIdentifier(for: $0)
         boardDetailVC.viewModel.post = selectedPost
         boardDetailVC.viewModel.viewDismiss
           .filter{$0 == true}
           .subscribe(onNext: { _ in
             DispatchQueue.main.async {
               boardDetailVC.navigationController?.popViewController(animated: true)
-              self.freeSizeToast(text: "게시글을 삭제했습니다.", size: CGSize(width: 150, height: 44))
+              toast(text: "게시글을 삭제했습니다.", size: CGSize(width: 150, height: 44))
                 .subscribe(onDisposed: {
-                  self.fetchBoard()
+                  fetchBoard()
                 })
-                .disposed(by: self.bag)
+                .disposed(by: bag)
             }
           })
-          .disposed(by: self.bag)
-        self.navigationController?.pushViewController(boardDetailVC, animated: true)
+          .disposed(by: bag)
+        navigationController?.pushViewController(boardDetailVC, animated: true)
       })
       .disposed(by: bag)
     
@@ -135,7 +137,12 @@ class BoardViewController: UIViewController {
   }
   
   @objc func writeNewBoard(_ sender: UIButton) {
-    let controller = NewBoardViewController()
+    let viewModel = NewPostViewModel()
+    
+    let controller = NewBoardViewController(
+      viewModel: viewModel,
+      worktype: .new,
+      postText: "")
     controller.viewModel.viewDismiss
       .filter{$0 == true}
       .subscribe(onNext: { _ in
@@ -144,7 +151,7 @@ class BoardViewController: UIViewController {
         }
     })
       .disposed(by: bag)
-    navigationController?.pushViewController(NewBoardViewController(), animated: true)
+    navigationController?.pushViewController(controller, animated: true)
   }
   
 }

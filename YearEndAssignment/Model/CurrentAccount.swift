@@ -16,7 +16,11 @@ class CurrentAccount {
 //  var tokenRefreshCount = Observable<Int>()
   let bag = DisposeBag()
   
-  var token: String = ""
+  var token: String = "" {
+    didSet {
+      UserDefaults.standard.set(token, forKey: "token")
+    }
+  }
   var id: Int = -1
   
   private init() {

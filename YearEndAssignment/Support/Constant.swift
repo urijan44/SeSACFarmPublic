@@ -7,9 +7,6 @@
 
 import Foundation
 
-enum Constant {
-  
-}
 
 enum Header: String {
   case json = "application/json"

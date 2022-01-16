@@ -71,12 +71,14 @@ class SignUpViewController: UIViewController {
   }
   
   @objc private func tappedStartButton(_ sender: UIButton) {
-    
+    mainView.startButton.startAnimating()
     viewModel.requestSignUp { success, error in
       DispatchQueue.main.async {
         if let error = error {
           self.alert(title: error.localizedDescription)
-            .subscribe()
+            .subscribe(onCompleted: {
+              self.mainView.startButton.stopAnimating()
+            })
             .disposed(by: self.bag)
           return
         }
@@ -90,11 +92,8 @@ class SignUpViewController: UIViewController {
           UIView.transition(with: windowScene.windows.first!, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
           return
         }
-        
       }
     }
-    
-    
   }
   
   @objc private func emailTextFieldDidChanged(_ textField: UITextField) {

@@ -21,7 +21,6 @@ struct User: Codable, Hashable {
   let role: Role
   let createdAt, updatedAt: String
   let posts: [Post]
-//  let comments: [Comment] = []
   
   enum CodingKeys: String, CodingKey {
     case id, username, email, provider, confirmed, role

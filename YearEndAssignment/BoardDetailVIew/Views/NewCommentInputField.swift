@@ -22,11 +22,17 @@ class NewCommentInputField: UIView {
   let textField = UITextField().then {
     $0.placeholder = "댓글을 입력해주세요"
     $0.font = .systemFont(ofSize: 13, weight: .medium)
+    $0.enablesReturnKeyAutomatically = true
     $0.textColor = .black
   }
   
   let lineView = UIView().then {
     $0.backgroundColor = .sesacGray
+  }
+  
+  let editFinishButton = EditFinishButton().then {
+    $0.alpha = 0.0
+    $0.isHidden = true
   }
   
   override init(frame: CGRect) {
@@ -36,6 +42,7 @@ class NewCommentInputField: UIView {
     addSubview(lineView)
     containerView.addSubview(textContainerView)
     textContainerView.addSubview(textField)
+    textContainerView.addSubview(editFinishButton)
 
     lineView.snp.makeConstraints { make in
       make.leading.top.trailing.equalToSuperview()
@@ -53,12 +60,23 @@ class NewCommentInputField: UIView {
     
     textField.snp.makeConstraints { make in
       make.centerY.equalToSuperview()
-      make.leading.trailing.equalToSuperview().inset(12)
+      make.leading.equalToSuperview().inset(12)
+      make.trailing.equalTo(editFinishButton.snp.leading).inset(-12)
     }
     
     textField.backgroundColor = .sesacGray
+    textField.delegate = self
     textContainerView.layer.cornerRadius = 40 / 2
     textContainerView.clipsToBounds = true
+    
+    editFinishButton.snp.makeConstraints { make in
+      make.size.equalTo(textContainerView.snp.height).multipliedBy(0.8)
+      make.centerY.equalToSuperview()
+      make.trailing.equalToSuperview().offset(-6)
+    }
+    
+    
+    textField.addTarget(self, action: #selector(textFieldBeginEditing(_:)), for: .editingChanged)
   }
   
   required init?(coder: NSCoder) {
@@ -83,7 +101,40 @@ class NewCommentInputField: UIView {
 //    context.addLine(to: CGPoint(x: bounds.maxX, y: bounds.midY))
 //    context.strokePath()
   }
+  
+  
+  @objc func textFieldBeginEditing(_ textFiend: UITextField) {
+    guard let text = textField.text else { return }
+    if text.count > 0 && editFinishButton.isHidden {
+      showButton()
+    } else if text.isEmpty {
+      hideButton()
+    }
+  }
+  
+  private func showButton() {
+    self.editFinishButton.isHidden = false
+    UIView.animate(withDuration: 0.3) {
+      self.editFinishButton.alpha = 1.0
+    }
+  }
+  
+  private func hideButton() {
+    UIView.animate(withDuration: 0.3) {
+      self.editFinishButton.alpha = 0.0
+    } completion: { _ in
+      self.editFinishButton.isHidden = true
+    }
+  }
 }
+
+extension NewCommentInputField: UITextFieldDelegate {
+  
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    hideButton()
+  }
+}
+
 
 struct NewCommentViewRP: UIViewRepresentable {
   func makeUIView(context: UIViewRepresentableContext<NewCommentViewRP>) -> NewCommentInputField {

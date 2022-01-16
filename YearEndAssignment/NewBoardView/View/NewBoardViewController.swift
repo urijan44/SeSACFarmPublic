@@ -15,12 +15,22 @@ enum WorkType {
   case edit
 }
 
-class NewBoardViewController: UIViewController {
+class NewBoardViewController: NiblessViewController {
   
   let mainView = NewBoardMainView()
-  let viewModel = NewPostViewModel()
+  let viewModel: NewPostViewModel
   var bag = DisposeBag()
   var worktype: WorkType = .new
+  
+  init(viewModel: NewPostViewModel,
+       worktype: WorkType,
+       postText: String) {
+    self.viewModel = viewModel
+    self.worktype = worktype
+    self.mainView.textView.text = postText
+    super.init()
+  }
+  
   override func loadView() {
     view = mainView
   }
@@ -31,6 +41,7 @@ class NewBoardViewController: UIViewController {
     navigationBarConfigure()
     actionConnect()
     bindSetup()
+    mainView.textView.becomeFirstResponder()
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -87,7 +98,7 @@ class NewBoardViewController: UIViewController {
   
   func saveNewBoard() {
     viewModel.saveRequest().subscribe(onSuccess: { _ in
-      self.toast(text: "포스트를 작성했습니다✏️")
+      self.toast(text: "포스트를 작성했습니다✏️", popChain: true)
         .subscribe(onCompleted: {
           self.viewModel.viewDismiss.accept(true)
         })

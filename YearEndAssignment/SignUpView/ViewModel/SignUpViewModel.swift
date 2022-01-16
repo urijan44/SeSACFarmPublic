@@ -66,7 +66,8 @@ class SignUpViewModel {
   }
   
   
-  func requestSignUp( completion: @escaping (Bool, Error?) -> Void) {
+  func requestSignUp(completion: @escaping (Bool, Error?) -> Void) {
+    
     let jsonDictionary = [
       "email": email.value,
       "username": nickname.value,

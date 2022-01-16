@@ -37,14 +37,16 @@ class LoginViewController: UIViewController {
     dismiss(animated: true, completion: nil)
   }
   
-  @objc private func tappedStartButton(_ sender: UIButton) {
-    
+  @objc private func tappedStartButton(_ sender: SeSACButton) {
+    sender.startAnimating()
     viewModel.loginRequest(
       id: mainView.idTextField.text,
       pass: mainView.passwordTextField.text) { error in
         if let error = error {
           self.alert(title: error.localizedDescription)
-            .subscribe()
+            .subscribe(onDisposed: {
+              sender.stopAnimating()
+            })
             .disposed(by: self.bag)
           return
         }
